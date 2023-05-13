@@ -1,6 +1,6 @@
 
 # Name of the program
-NAME = p_s
+NAME = ps
 
 # Compiling flags
 FLAGS = -Wall -Wextra -Werror -g
@@ -14,7 +14,7 @@ OBJ_DIR = ./obj/
 INC_DIR = ./includes/
 
 # Source files and object files
-SRC_FILES = main.c instructions.c 
+SRC_FILES = main.c libft_fct.c ft_atoi.c
 OBJ_FILES = $(SRC_FILES:.c=.o)
 
 # Paths
