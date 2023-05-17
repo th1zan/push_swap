@@ -14,7 +14,7 @@ OBJ_DIR = ./obj/
 INC_DIR = ./includes/
 
 # Source files and object files
-SRC_FILES = main.c libft_fct.c ft_atoi.c
+SRC_FILES = main.c libft_fct.c ft_atoi.c push_swap_reverse.c quicksort.c
 OBJ_FILES = $(SRC_FILES:.c=.o)
 
 # Paths

@@ -6,7 +6,7 @@
 /*   By: thibault <thibault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 09:17:41 by thibault          #+#    #+#             */
-/*   Updated: 2023/05/13 15:10:31 by thibault         ###   ########.fr       */
+/*   Updated: 2023/05/16 15:16:33 by thibault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,19 @@ void	ft_putnbr_fd(int n, int fd);
 t_nb	*ft_lstnew(int nb);
 void	ft_lstadd_back(t_nb **head_list_nb, t_nb *new_nb);
 t_nb	*ft_lstlast(t_nb *list_pt);
+int		print_list(t_nb *list_pt);
+int		ft_lstsize(t_nb *liste);
 
 /*ft_atoi.c*/
 int		ft_atoi(const char *str);
 
+/*push_swap_reverse.c*/
+int		swap(t_nb **head_list);
+int		push(t_nb **head_list_a, t_nb **head_list_b);
+int		rotate(t_nb **head_list);
+int		reverse_rotate(t_nb **head_list);
+
+/*quicksort.c*/
+t_nb	*quick_sort(t_nb *head_list_a, t_nb *head_list_b);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: thibault <thibault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 10:17:28 by thibault          #+#    #+#             */
-/*   Updated: 2023/05/13 15:15:25 by thibault         ###   ########.fr       */
+/*   Updated: 2023/05/16 15:16:05 by thibault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,58 +14,47 @@
 #include "inc_struct.h"
 #include "inc_functions.h"
 
-int print_list(t_nb *list_pt)
-{
-	if (!list_pt)
-		return (0);
-	while (list_pt != 0)
-	{
-		ft_putnbr_fd(list_pt->nb, 1);
-		ft_putstr_fd("\n", 1);
-		list_pt = list_pt->next;
-	}	
-	return (0);
-}
-
 int	main(int argc, char **argv)
 {
-	t_nb	*head_list;
+	t_nb	*head_list_init;
 	
-	head_list = NULL;
+	head_list_init = NULL;
 	if (argc <= 1)
 	{
 		ft_putstr_fd("Nombre d'arguments insuffisant", 1);
 		exit (0);
 	}
+	else if (argc == 1)
+		return(ft_atoi(argv[1]));
 	else
 	{
-		head_list = argv_to_list(argc, argv);
+		head_list_init = argv_to_list(argc, argv);
 	}
-	print_list(head_list);
-	// sort_list(head_list);
+	// print_list(head_list_a);
+	quick_sort(head_list_init, NULL);
 	// print_sorted_list(head_list);
 	
 	
-	free_list(head_list);
+	free_list(head_list_init);
 	return (0);
 }
 
 t_nb	*argv_to_list(int argc, char **argv)
 {
-	t_nb	*head_list;
+	t_nb	*head_list_a;
 	int		i;
 
 	i = 1;
 	check_nbr(argv[i]);
-	head_list = ft_lstnew(ft_atoi(argv[i]));
+	head_list_a = ft_lstnew(ft_atoi(argv[i]));
 	i++;
 	while(argc - i)
 	{
 		check_nbr(argv[i]);
-		ft_lstadd_back(&head_list, ft_lstnew(ft_atoi(argv[i])));
+		ft_lstadd_back(&head_list_a, ft_lstnew(ft_atoi(argv[i])));
 		i++;
 	}
-	return (head_list);
+	return (head_list_a);
 }
 
 int	check_nbr(const char *str)
@@ -93,11 +82,11 @@ int free_list(t_nb *head_list)
 	t_nb    *tmp;
 	
 	if (!head_list)
-		return (0);
+		return (-1);
 	tmp = head_list;
 	while (head_list != 0)
 	{
-		// printf("nb = %d, pt = %p, next = %p\n", head_list->nb, head_list, head_list->next);
+		// printf("nb = %d, pt = %p, prev = %p, next = %p\n", head_list->nb, head_list, head_list->prev, head_list->next);
 		tmp = tmp->next;
 		free(head_list);
 		head_list = tmp;	
