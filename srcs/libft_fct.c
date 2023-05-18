@@ -6,7 +6,7 @@
 /*   By: thibault <thibault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 11:21:51 by thibault          #+#    #+#             */
-/*   Updated: 2023/05/16 14:44:14 by thibault         ###   ########.fr       */
+/*   Updated: 2023/05/18 17:36:11 by thibault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	ft_putnbr_fd(int n, int fd)
 t_nb	*ft_lstnew(int nb)
 {
 	t_nb *new_nb;
-
+	
 	new_nb = (t_nb *)malloc(sizeof(t_nb));
 	if (!new_nb)
 		return (NULL);
@@ -99,9 +99,9 @@ int print_list(t_nb *list_pt)
 	ft_putstr_fd("\n", 1);
 	while (list_pt != 0)
 	{
-		printf("nb = %d, pt = %p, prev = %p, next = %p\n", list_pt->nb, list_pt, list_pt->prev, list_pt->next);
-		// ft_putnbr_fd(list_pt->nb, 1);
-		// ft_putstr_fd("\n", 1);
+		// printf("nb = %d, pt = %p, prev = %p, next = %p\n", list_pt->nb, list_pt, list_pt->prev, list_pt->next);
+		ft_putnbr_fd(list_pt->nb, 1);
+		ft_putstr_fd("\n", 1);
 		list_pt = list_pt->next;
 	}	
 	ft_putstr_fd("\n", 1);
@@ -119,4 +119,12 @@ int ft_lstsize(t_nb *liste)
 		n++;
 	}
 	return(n);
+}
+
+void ft_lstadd_front(t_nb **lst, t_nb *new)
+{
+	
+	// printf("nb = %d, pt = %p, prev = %p, next = %p\n", new->nb, new, new->prev, new->next);
+	new->next = *lst;
+	*lst = new;
 }

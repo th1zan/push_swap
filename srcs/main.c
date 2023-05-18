@@ -6,7 +6,7 @@
 /*   By: thibault <thibault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 10:17:28 by thibault          #+#    #+#             */
-/*   Updated: 2023/05/16 15:16:05 by thibault         ###   ########.fr       */
+/*   Updated: 2023/05/18 17:38:39 by thibault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,30 +31,28 @@ int	main(int argc, char **argv)
 		head_list_init = argv_to_list(argc, argv);
 	}
 	// print_list(head_list_a);
-	quick_sort(head_list_init, NULL);
-	// print_sorted_list(head_list);
-	
-	
+	head_list_init = quick_sort(head_list_init);
+	print_list(head_list_init);
 	free_list(head_list_init);
 	return (0);
 }
 
 t_nb	*argv_to_list(int argc, char **argv)
 {
-	t_nb	*head_list_a;
+	t_nb	*head_list;
 	int		i;
 
 	i = 1;
 	check_nbr(argv[i]);
-	head_list_a = ft_lstnew(ft_atoi(argv[i]));
+	head_list = ft_lstnew(ft_atoi(argv[i]));
 	i++;
 	while(argc - i)
 	{
 		check_nbr(argv[i]);
-		ft_lstadd_back(&head_list_a, ft_lstnew(ft_atoi(argv[i])));
+		ft_lstadd_back(&head_list, ft_lstnew(ft_atoi(argv[i])));
 		i++;
 	}
-	return (head_list_a);
+	return (head_list);
 }
 
 int	check_nbr(const char *str)
@@ -84,12 +82,13 @@ int free_list(t_nb *head_list)
 	if (!head_list)
 		return (-1);
 	tmp = head_list;
+	free(tmp->prev);
 	while (head_list != 0)
 	{
 		// printf("nb = %d, pt = %p, prev = %p, next = %p\n", head_list->nb, head_list, head_list->prev, head_list->next);
 		tmp = tmp->next;
 		free(head_list);
 		head_list = tmp;	
-	}	
+	}
 	return (0);
 }
