@@ -1,6 +1,6 @@
 
 # Name of the program
-NAME = ps
+NAME = push_swap
 
 # Compiling flags
 FLAGS = -Wall -Wextra -Werror -g
