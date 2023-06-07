@@ -14,13 +14,12 @@ OBJ_DIR = ./obj/
 INC_DIR = ./includes/
 
 # Source files and object files
-SRC_FILES = main.c libft_fct.c ft_atoi.c push_swap_reverse.c quicksort.c
+SRC_FILES = main.c libft_fct.c ft_atoi.c push_swap_reverse.c quicksort.c ft_printf.c ft_print_csdiu.c ft_print_hex.c ft_printptr.c
 OBJ_FILES = $(SRC_FILES:.c=.o)
 
 # Paths
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 OBJ = $(addprefix $(OBJ_DIR), $(OBJ_FILES))
-
 
 # all rule
 all: obj $(NAME)
