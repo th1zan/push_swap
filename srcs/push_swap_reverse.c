@@ -6,7 +6,7 @@
 /*   By: thibault <thibault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 14:50:15 by tsanglar          #+#    #+#             */
-/*   Updated: 2023/05/16 16:08:33 by thibault         ###   ########.fr       */
+/*   Updated: 2023/06/05 17:59:02 by thibault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,30 @@
 #include "inc_struct.h"
 #include "inc_functions.h"
 
-int swap(t_nb **head_list)
+int swap(t_nb **head_list, char stack)
 {
-    t_nb *tmp;
+    t_nb *sec_el;
+    t_nb *third_el;
     
     if (!(*head_list) || !(*head_list)->next)
         return (-1);
     
-    tmp = (*head_list)->next;
-    (*head_list)->next = tmp->next;
-    (*head_list)->prev = tmp;
-    tmp->next = (*head_list);
-    (*head_list) = tmp;
+    sec_el = (*head_list)->next;
+    third_el = sec_el->next;
+    
+    (*head_list)->next = third_el;
+    (*head_list)->prev = sec_el;
+    sec_el->next = (*head_list);
+    sec_el->prev = (*head_list)->prev;;
+    if (third_el)
+        third_el->prev = (*head_list);
+    (*head_list) = sec_el;
     (*head_list)->prev = NULL;
+    ft_printf("s%c\n", stack);
     return (0);
 }
 
-int push(t_nb **head_list_a, t_nb **head_list_b)
+int push(t_nb **head_list_a, t_nb **head_list_b, char stack)
 {
 	t_nb    *tmp;
 	
@@ -60,10 +67,11 @@ int push(t_nb **head_list_a, t_nb **head_list_b)
 	}
 	else
 		tmp->prev = NULL;
+	ft_printf("p%c\n", stack);
 	return (0);
 }
 
-int rotate(t_nb **head_list)
+int rotate(t_nb **head_list, char stack)
 {
 	t_nb    *tmp;
 	t_nb    *last;
@@ -77,10 +85,11 @@ int rotate(t_nb **head_list)
 	last->next = tmp;
 	tmp->next = NULL;
 	tmp->prev = last;
+	ft_printf("r%c\n", stack);
 	return (0);
 }
 
-int reverse_rotate(t_nb **head_list)
+int reverse_rotate(t_nb **head_list, char stack)
 {
 	t_nb    *first;
 	t_nb    *last;
@@ -91,14 +100,20 @@ int reverse_rotate(t_nb **head_list)
 	first = *head_list;
 	last = ft_lstlast(first);
 	b_last = last->prev;
+	if(last->prev == first)
+	{
+		swap(head_list, stack);
+		ft_printf("s%c\n", stack);
+		return (0);
+	}
 	b_last->next = NULL;
 	first->prev = last;
 	last->next = first;
 	last->prev = NULL;
 	(*head_list) = last;
+	ft_printf("rr%c\n", stack);
 	return (0);
 }
-
 
 
 /*

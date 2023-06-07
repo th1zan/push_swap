@@ -6,7 +6,7 @@
 /*   By: thibault <thibault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 11:21:51 by thibault          #+#    #+#             */
-/*   Updated: 2023/05/18 17:36:11 by thibault         ###   ########.fr       */
+/*   Updated: 2023/06/06 11:04:40 by thibault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,8 @@ int print_list(t_nb *list_pt)
 	{
 		// printf("nb = %d, pt = %p, prev = %p, next = %p\n", list_pt->nb, list_pt, list_pt->prev, list_pt->next);
 		ft_putnbr_fd(list_pt->nb, 1);
+		ft_putstr_fd(", p =", 1);
+		ft_putnbr_fd(list_pt->pivot, 1);
 		ft_putstr_fd("\n", 1);
 		list_pt = list_pt->next;
 	}	
@@ -127,4 +129,87 @@ void ft_lstadd_front(t_nb **lst, t_nb *new)
 	// printf("nb = %d, pt = %p, prev = %p, next = %p\n", new->nb, new, new->prev, new->next);
 	new->next = *lst;
 	*lst = new;
+}
+
+// int	get_median(t_nb *list_pt)
+// {
+// 	int sum;
+	
+// 	if (!list_pt)
+// 		return (0);
+// 	// printf("nb = %d, pt = %p\n", list_pt->nb, list_pt);
+// 	while (list_pt->next != 0)
+// 	{	
+// 		sum = sum + list_pt->nb;
+// 		list_pt = list_pt->next;
+// 	}
+// 	return (sum);
+// }
+
+
+int get_median(t_nb *head_list)
+{
+    int     count;
+    int     *values;
+    int     median;
+    t_nb    *tmp;
+
+	count = 0;
+    // Compter le nombre d'éléments dans la liste
+    tmp = head_list;
+    while (tmp != NULL)
+	{
+        count++;
+        tmp = tmp->next;
+    }
+
+    // Allouer de la mémoire pour stocker les valeurs de la liste
+    values = (int *)malloc(count * sizeof(int));
+
+    // Remplir le tableau de valeurs avec les nombres de la liste
+    int i = 0;
+    tmp = head_list;
+    while (tmp != NULL)
+    {
+        values[i] = tmp->nb;
+        i++;
+        tmp = tmp->next;
+    }
+
+    // Trier le tableau de valeurs
+    bubble_sort(values, count);
+
+    // Calculer la médiane
+    if (count % 2 == 0)
+    {
+        median = (values[count / 2 - 1] + values[count / 2]) / 2;
+    }
+    else
+    {
+        median = values[count / 2];
+    }
+
+    // Libérer la mémoire allouée
+    free(values);
+	printf("median %d\n", median);
+    return (median);
+}
+
+int bubble_sort(int *arr, int size)
+{
+    int i = 0;
+    while (i < size - 1) {
+        int j = 0;
+        while (j < size - i - 1) {
+            if (arr[j] > arr[j + 1]) {
+                // Échanger les éléments
+                int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+            j++;
+        }
+        i++;
+    }
+    return (0);
 }

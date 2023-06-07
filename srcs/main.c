@@ -6,7 +6,7 @@
 /*   By: thibault <thibault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 10:17:28 by thibault          #+#    #+#             */
-/*   Updated: 2023/05/19 00:01:41 by thibault         ###   ########.fr       */
+/*   Updated: 2023/06/05 19:25:28 by thibault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	main(int argc, char **argv)
 		head_list_init = argv_to_list(argc, argv);
 	}
 	// print_list(head_list_a);
-	head_list_init = quick_sort(head_list_init);
+	sort(&head_list_init);
 	print_list(head_list_init);
 	free_list(head_list_init);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: thibault <thibault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 09:17:41 by thibault          #+#    #+#             */
-/*   Updated: 2023/05/18 15:16:04 by thibault         ###   ########.fr       */
+/*   Updated: 2023/06/06 11:01:15 by thibault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,31 @@ t_nb	*ft_lstlast(t_nb *list_pt);
 int		print_list(t_nb *list_pt);
 int		ft_lstsize(t_nb *liste);
 void	ft_lstadd_front(t_nb **lst, t_nb *new);
+int		get_median(t_nb *list_pt);
+int     bubble_sort(int *arr, int size);
 /*ft_atoi.c*/
 int		ft_atoi(const char *str);
 
 /*push_swap_reverse.c*/
-int		swap(t_nb **head_list);
-int		push(t_nb **head_list_a, t_nb **head_list_b);
-int		rotate(t_nb **head_list);
-int		reverse_rotate(t_nb **head_list);
+int		swap(t_nb **head_list, char stack);
+int		push(t_nb **head_list_a, t_nb **head_list_b, char stack);
+int		rotate(t_nb **head_list, char stack);
+int		reverse_rotate(t_nb **head_list, char stack);
 
 /*quicksort.c*/
-t_nb	*quick_sort(t_nb *head_list);
+t_nb	*sort(t_nb **head_list);
+t_nb	*a_to_b(t_nb *list_a, t_nb *list_b);
 int		compare_elem_to_pivot(t_nb *head_list, int pivot);
+t_nb	*sort_list(t_nb *head_list);
+
+/*printf*/
+int		ft_printf(const char *str, ...);
+int		ft_printf_format(const char *s, va_list args, int *r);
+int		ft_printf_c(unsigned char c, int *result);
+int		ft_printf_s(char *s, int *result);
+int		ft_printf_di(int n, int *result);
+int		ft_printf_u(unsigned int n, int *result);
+int		ft_printf_hex(unsigned long dec, int *result, int cap);
+int		ft_printf_ptr(unsigned long dec, int *result);
 
 #endif
