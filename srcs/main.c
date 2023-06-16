@@ -6,7 +6,7 @@
 /*   By: thibault <thibault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 10:17:28 by thibault          #+#    #+#             */
-/*   Updated: 2023/06/05 19:25:28 by thibault         ###   ########.fr       */
+/*   Updated: 2023/06/16 13:43:45 by thibault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,54 @@
 
 int	main(int argc, char **argv)
 {
-	t_nb	*head_list_init;
-	
-	head_list_init = NULL;
+	t_nb	*list_a;
+	t_nb	*list_b;
+	char	*tmp_list;
+
+	list_a = NULL;
+	list_b = NULL;
+	tmp_list = malloc(sizeof(char));
+// printf("tmp_list p: %p\n", tmp_list);
+	if (!tmp_list)
+		return (0);
+	tmp_list[0] = '\0';
 	if (argc <= 1)
 	{
 		ft_putstr_fd("Nombre d'arguments insuffisant", 1);
 		exit (0);
 	}
 	else if (argc == 1)
-		return(ft_atoi(argv[1]));
+		return (ft_atoi(argv[1]));
 	else
+		list_a = argv_to_list(argc, argv);
+	sort(&list_a, &list_b, &tmp_list);
+	ft_printf("%s", tmp_list);
+	free (tmp_list);
+	free_list(list_a);
+	return (0);
+}
+
+	// print_list(list_a);
+	// print_list(list_b);
+	// ft_printf("\n nb_op: %d\n", nb_op(tmp_list));
+
+int	check_duplicates(t_nb *list_a)
+{
+	t_nb	*current;
+	t_nb	*temp;
+
+	current = list_a;
+	while (current != NULL)
 	{
-		head_list_init = argv_to_list(argc, argv);
+		temp = current->next;
+		while (temp != NULL)
+		{
+			if (current->nb == temp->nb)
+				return (-1);
+			temp = temp->next;
+		}
+		current = current->next;
 	}
-	// print_list(head_list_a);
-	sort(&head_list_init);
-	print_list(head_list_init);
-	free_list(head_list_init);
 	return (0);
 }
 
@@ -46,7 +76,7 @@ t_nb	*argv_to_list(int argc, char **argv)
 	check_nbr(argv[i]);
 	head_list = ft_lstnew(ft_atoi(argv[i]));
 	i++;
-	while(argc - i)
+	while (argc - i)
 	{
 		check_nbr(argv[i]);
 		ft_lstadd_back(&head_list, ft_lstnew(ft_atoi(argv[i])));
@@ -64,7 +94,6 @@ int	check_nbr(const char *str)
 		i++;
 	while (str[i])
 	{
-		// printf("%c\n", str[i]);
 		if (!ft_isdigit(str[i]))
 		{
 			ft_putstr_fd("Un élément de la liste n'est pas un nombre", 1);
@@ -75,20 +104,37 @@ int	check_nbr(const char *str)
 	return (0);
 }
 
-int free_list(t_nb *head_list)
+int	free_list(t_nb *head_list)
 {
-	t_nb    *tmp;
-	
+	t_nb	*tmp;
+
 	if (!head_list)
 		return (-1);
 	tmp = head_list;
 	free(tmp->prev);
 	while (head_list != 0)
 	{
-		// printf("nb = %d, pt = %p, prev = %p, next = %p\n", head_list->nb, head_list, head_list->prev, head_list->next);
 		tmp = tmp->next;
 		free(head_list);
-		head_list = tmp;	
+		head_list = tmp;
 	}
 	return (0);
+}
+
+/*printf("nb = %d, pt = %p, prev = %p, next = %p\n", head_list->nb, head_list, head_list->prev, head_list->next);*/
+
+int	nb_op(char *tmp_list)
+{
+	int	result;
+	int	i;
+
+	i = 0;
+	result = 0;
+	while (tmp_list[i])
+	{
+		if (tmp_list[i] == '\n')
+			result++;
+		i++;
+	}
+	return (result);
 }

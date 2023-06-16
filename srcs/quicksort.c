@@ -6,7 +6,7 @@
 /*   By: thibault <thibault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:22:54 by thibault          #+#    #+#             */
-/*   Updated: 2023/06/06 11:09:00 by thibault         ###   ########.fr       */
+/*   Updated: 2023/06/16 14:08:04 by thibault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,163 +14,301 @@
 #include "inc_struct.h"
 #include "inc_functions.h"
 
-t_nb *sort(t_nb **head_list)
+int	sort(t_nb **list_a, t_nb **list_b, char **tmp_list)
 {
-	t_nb *list_a;
-	t_nb *list_b;
-	
-	list_b = NULL;
-	list_a = *head_list;
-	list_a = a_to_b(list_a, list_b);
-	// head_list = a_to_b(head_list);
-	return (list_a);
-}
-
-t_nb *a_to_b(t_nb *list_a, t_nb *list_b)
-{
-	// t_nb    *tmp;
-	// t_nb    *list_a;
-	// t_nb    *list_b;
-	// t_nb    *pivot_node;
-	int     pivot;
-	int     size;
-	
-	// tmp = NULL;
-	// printf("coucou\n");
-	/*Si la longueur de la liste est inférieure ou égale à 1
-	Retourner la liste telle quelle*/
-	// printf("lst_size = %d\n", ft_lstsize(head_list));
-	if (ft_lstsize(list_a) <= 1)
-		return (list_a);
-	if (ft_lstsize(list_a) <= 3)
+	if (check_duplicates(*list_a) < 0)
 	{
-		// print_list(head_list);
-		list_a = sort_list(list_a);
-		return (list_a);
+		ft_putstr_fd("Il y a une valeur en double", 1);
+		exit (0);
 	}
-    /*Initialiser deux listes vides : list_a et list_b*/
-	// list_b = NULL;
-	// list_a = head_list;
-	
-	/*Choisir un pivot (par exemple, le dernier élément de la liste)*/
-    size = ft_lstsize(list_a);
-    while (size >= 3)
-    {
-	    pivot = get_median(list_a);
-			    // pivot_node = ft_lstlast(list_a);
-			    // pivot = pivot_node->nb;
-			    // printf("pivot : nb = %d, pt = %p, prev = %p, next = %p\n", pivot_node->nb, pivot_node, pivot_node->prev, pivot_node->next);
-	    if (compare_elem_to_pivot(list_a, pivot))
-	        return (list_a);
-		/* Pour chaque élément dans head_list_a
-	        Si l'élément est inférieur ou égal au pivot
-	            Ajouter l'élément à list_a
-	        Sinon
-	            Ajouter l'élément à list_b
-	    */
-	    // tmp = list_a;
-		while (size >= 1)
-		{
-			// printf("%d %d <?> %d\n", size, tmp->nb, pivot);
-			list_a->pivot = pivot;
-			rotate(&list_a, 'a');
-			if (list_a->nb >= pivot)
-			{	
-				list_a->pivot = pivot;
-				push(&list_a, &list_b, 'b');
-				// printf("nb = %d, pt = %p, prev = %p, next = %p\n", tmp->nb, tmp, tmp->prev, tmp->next);
-			}
-			size--;
-		}	
-		size = ft_lstsize(list_a);
+	if (ft_lstsize(*list_a) <= 1)
+		return (0);
+	if (ft_lstsize(*list_a) <= 3)
+	{
+		sort_list(list_a, list_b, tmp_list);
+		return (0);
 	}
-	printf("list_a\n");
-	print_list(list_a);
-	printf("list_b\n");
-	print_list(list_b);
-	
-	
+	if (ft_lstsize(*list_a) <= 50)
+		a_to_b_50(list_a, list_b, tmp_list);
+	else
+		a_to_b_100(list_a, list_b, tmp_list);
+	if (*list_b)
+		b_to_a(list_a, list_b, tmp_list);
+	return (0);
+}
+/*
+int	b_to_a(t_nb **list_a, t_nb **list_b, char **tmp_list)
+{
+	int	position;
+	int	size;
 
-	
-	return (list_a);
+	size = ft_lstsize(*list_b);
+	position = get_max(list_b);
+	while (size > 1)
+	{
+		if (position < (size / 2))
+		{
+			position--;
+			while (position--)
+				rotate(list_b, "b", tmp_list);
+		}
+		else
+		{	
+			position = size - position + 1;
+			while (position--)
+				reverse_rotate(list_b, "b", tmp_list);
+		}
+		push(list_b, list_a, "a", tmp_list);
+		size = ft_lstsize(*list_b);
+		position = get_max(list_b);
+	}
+	push(list_b, list_a, "a", tmp_list);
+	return (0);
+}
+*/
+
+int	rotate_b_to_a(t_nb **list_b, char **tmp_list, int position)
+{
+	position--;
+	while (position--)
+		rotate(list_b, "b", tmp_list);
+	return (position);
 }
 
-int compare_elem_to_pivot(t_nb *head_list, int pivot)
+int	r_rotate_b_to_a(t_nb **list_b, char **tmp_list, int size, int position)
 {
-	t_nb    *tmp;
-	
+	position = size - position + 1;
+	while (position--)
+		reverse_rotate(list_b, "b", tmp_list);
+	return (position);
+}
+
+int	b_to_a(t_nb **list_a, t_nb **list_b, char **tmp_list)
+{
+	int	size;
+	int	position;
+
+	size = ft_lstsize(*list_b);
+	position = get_max(list_b);
+	while (size > 1)
+	{
+		if (position < (size / 2))
+			position = rotate_b_to_a(list_b, tmp_list, position);
+		else
+			position = r_rotate_b_to_a(list_b, tmp_list, size, position);
+		push(list_b, list_a, "a", tmp_list);
+		size = ft_lstsize(*list_b);
+		position = get_max(list_b);
+	}
+	push(list_b, list_a, "a", tmp_list);
+	return (0);
+}
+
+int	a_to_b_50(t_nb **list_a, t_nb **list_b, char **tmp_list)
+{
+	int	size;
+	int	position;
+
+	while (ft_lstsize(*list_a) > 2)
+	{
+		size = ft_lstsize(*list_a);
+		position = get_min(list_a);
+		if (position <= (size / 2 + 1))
+		{
+			position--;
+			while (position--)
+				rotate(list_a, "a", tmp_list);
+		}
+		else
+		{	
+			position = size - position + 1;
+			while (position--)
+				reverse_rotate(list_a, "a", tmp_list);
+		}
+		push(list_a, list_b, "b", tmp_list);
+	}
+	sort_list(list_a, list_b, tmp_list);
+	while (ft_lstsize(*list_b) > 0)
+		push(list_b, list_a, "a", tmp_list);
+	return (0);
+}
+
+int	*get_octile_tab(t_nb **list_a, int *octile_tab)
+{
+	int	i;
+
+	octile_tab = (int *)malloc(sizeof(int) * 7);
+// printf("octile p: %p\n", octile_tab);
+	if (!octile_tab)
+		return (0);
+	i = 0;
+	while (i <= 7)
+	{
+		octile_tab[i] = get_octile(*list_a, i + 1);
+		i++;
+	}
+	return (octile_tab);
+}
+
+int	a_to_b_100_last_octile(t_nb **list_a, t_nb **list_b, char **tmp_list)
+{
+	int	size;
+
+	size = ft_lstsize(*list_a);
+	while (size-- > 0)
+	{
+		push(list_a, list_b, "b", tmp_list);
+		rotate(list_a, "a", tmp_list);
+	}
+	return (0);
+}
+
+int	a_to_b_100(t_nb **list_a, t_nb **list_b, char **tmp_list)
+{
+	int	size;
+	int	*octile_tab;
+	int	i;
+
+	octile_tab = NULL;
+	octile_tab = get_octile_tab(list_a, octile_tab);
+	size = ft_lstsize(*list_a);
+	i = 0;
+	while (i <= 7)
+	{
+		while (size-- >= 0)
+		{
+			if ((*list_a)->nb <= octile_tab[i])
+				push(list_a, list_b, "b", tmp_list);
+			else
+				rotate(list_a, "a", tmp_list);
+		}
+		size = ft_lstsize(*list_a);
+		i++;
+	}
+	a_to_b_100_last_octile(list_a, list_b, tmp_list);
+	free(octile_tab);
+	return (0);
+}
+
+int	compare_elem_to_pivot(t_nb *head_list, int pivot)
+{
+	t_nb	*tmp;
+
 	tmp = head_list;
 	while (tmp != 0)
 	{
-		// printf("nb = %d =? %d\n", tmp->nb, pivot);
 		if (tmp->nb != pivot)
-			return(0);
+			return (0);
 		tmp = tmp->next;
 	}	
 	return (1);
 }
 
-t_nb *sort_list(t_nb *head_list)
+int	sort_case_1(t_nb **list_a, char **tmp_list, t_nb *third_el)
 {
-	t_nb    *first_el;
-	t_nb    *sec_el;
-	t_nb    *third_el;
-	t_nb    *head_list_b;
-	
-	first_el = head_list;
-	sec_el = head_list->next;
+	t_nb	*first_el;
+	t_nb	*sec_el;
+
+	first_el = *list_a;
+	sec_el = (*list_a)->next;
+	if (first_el->nb < third_el->nb)
+		swap(list_a, "a", tmp_list);
+	else if (sec_el->nb < third_el->nb)
+		rotate(list_a, "a", tmp_list);
+	else
+	{
+		reverse_rotate(list_a, "a", tmp_list);
+		swap(list_a, "a", tmp_list);
+		rotate(list_a, "a", tmp_list);
+	}
+	return (0);
+}
+
+int	sort_case_2(t_nb **list_a, t_nb **list_b, char **tmp_list, t_nb *third_el)
+{
+	t_nb	*first_el;
+	t_nb	*sec_el;
+
+	first_el = *list_a;
+	sec_el = (*list_a)->next;
+	if (sec_el->nb < third_el->nb)
+		return (0);
+	else if (first_el->nb < third_el->nb)
+	{
+		push(list_a, list_b, "b", tmp_list);
+		swap(list_a, "a", tmp_list);
+		push(list_b, list_a, "a", tmp_list);
+	}
+	else
+		reverse_rotate(list_a, "a", tmp_list);
+	return (0);
+}
+
+int	sort_list(t_nb **list_a, t_nb **list_b, char **tmp_list)
+{
+	t_nb	*first_el;
+	t_nb	*sec_el;
+	t_nb	*third_el;
+
+	first_el = *list_a;
+	sec_el = (*list_a)->next;
 	third_el = sec_el->next;
-	head_list_b = NULL;
-	if (ft_lstsize(head_list) == 2)
+	if (ft_lstsize(*list_a) == 2)
 	{
 		if (first_el->nb > sec_el->nb)
-			rotate(&head_list, 'a');
-		//PRINT
-			// ft_putstr_fd("test tri 2 nb", 1);
-			// print_list(head_list);
-		return (head_list);
+			rotate(list_a, "a", tmp_list);
+		return (0);
+	}
+	if (first_el->nb > sec_el->nb)
+		sort_case_1(list_a, tmp_list, third_el);
+	if (first_el->nb < sec_el->nb)
+		sort_case_2(list_a, list_b, tmp_list, third_el);
+	return (0);
+}
+
+/*
+
+int	sort_list(t_nb **list_a, t_nb **list_b, char **tmp_list)
+{
+	t_nb	*first_el;
+	t_nb	*sec_el;
+	t_nb	*third_el;
+
+	first_el = *list_a;
+	sec_el = (*list_a)->next;
+	third_el = sec_el->next;
+	if (ft_lstsize(*list_a) == 2)
+	{
+		if (first_el->nb > sec_el->nb)
+			rotate(list_a, "a", tmp_list);
+		return (0);
 	}
 	if (first_el->nb > sec_el->nb)
 	{
 		if (first_el->nb < third_el->nb)
-			swap(&head_list, 'a');
+			swap(list_a, "a", tmp_list);
 		else if (sec_el->nb < third_el->nb)
-			rotate(&head_list, 'a');
+			rotate(list_a, "a", tmp_list);
 		else
 		{
-			reverse_rotate(&head_list, 'a');
-			swap(&head_list, 'a');
-			rotate(&head_list, 'a');
+			reverse_rotate(list_a, "a", tmp_list);
+			swap(list_a, "a", tmp_list);
+			rotate(list_a, "a", tmp_list);
 		}
 	}
 	if (first_el->nb < sec_el->nb)
 	{
-		if (sec_el->nb < third_el->nb);
+		if (sec_el->nb < third_el->nb)
+			;
 		else if (first_el->nb < third_el->nb)
 		{
-			push(&head_list, &head_list_b, 'a');
-			swap(&head_list, 'a');
-			push(&head_list_b, &head_list, 'b');
+			push(list_a, list_b, "b", tmp_list);
+			swap(list_a, "a", tmp_list);
+			push(list_b, list_a, "a", tmp_list);
 		}
 		else
-			reverse_rotate(&head_list, 'a');
+			reverse_rotate(list_a, "a", tmp_list);
 	}
-		//PRINT
-			// ft_putstr_fd("test tri 3 nbs", 1);
-			// print_list(head_list);
-	return (head_list);
+	return (0);
 }
-
-/*
-cas de figure
-1 2 3   y1 3 2  x2 1 3     y2 3 1   x3 1 2   x3 2 1
-ras             swap        rr        r        rr
-				1 2 3      1 2 3    1 3 2    1 3 2
-		push                                  swap
-		3 2 / 1                              3 1 2
-		swap                                   r
-		2 3 / 1                              1 2 3
-		push
-		1 2 3 
-
 */
