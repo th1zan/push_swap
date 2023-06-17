@@ -6,7 +6,7 @@
 /*   By: thibault <thibault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 10:17:28 by thibault          #+#    #+#             */
-/*   Updated: 2023/06/16 13:43:45 by thibault         ###   ########.fr       */
+/*   Updated: 2023/06/17 12:26:17 by thibault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int	main(int argc, char **argv)
 	list_a = NULL;
 	list_b = NULL;
 	tmp_list = malloc(sizeof(char));
-// printf("tmp_list p: %p\n", tmp_list);
 	if (!tmp_list)
 		return (0);
 	tmp_list[0] = '\0';
@@ -43,9 +42,11 @@ int	main(int argc, char **argv)
 	return (0);
 }
 
-	// print_list(list_a);
-	// print_list(list_b);
-	// ft_printf("\n nb_op: %d\n", nb_op(tmp_list));
+/*
+	print_list(list_a);
+	print_list(list_b);
+	ft_printf("\n nb_op: %d\n", nb_op(tmp_list));
+*/
 
 int	check_duplicates(t_nb *list_a)
 {
@@ -119,22 +120,4 @@ int	free_list(t_nb *head_list)
 		head_list = tmp;
 	}
 	return (0);
-}
-
-/*printf("nb = %d, pt = %p, prev = %p, next = %p\n", head_list->nb, head_list, head_list->prev, head_list->next);*/
-
-int	nb_op(char *tmp_list)
-{
-	int	result;
-	int	i;
-
-	i = 0;
-	result = 0;
-	while (tmp_list[i])
-	{
-		if (tmp_list[i] == '\n')
-			result++;
-		i++;
-	}
-	return (result);
 }

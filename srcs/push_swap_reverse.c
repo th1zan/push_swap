@@ -6,7 +6,7 @@
 /*   By: thibault <thibault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 14:50:15 by tsanglar          #+#    #+#             */
-/*   Updated: 2023/06/16 13:40:29 by thibault         ###   ########.fr       */
+/*   Updated: 2023/06/17 11:29:34 by thibault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,23 @@
 #include "inc_struct.h"
 #include "inc_functions.h"
 
-int	swap(t_nb **head_list, char *stack, char **tmp_list)
+int	swap(t_nb **h_list, char *stack, char **tmp_list)
 {
 	t_nb	*sec_el;
 	t_nb	*third_el;
 
-	if (!(*head_list) || !(*head_list)->next)
+	if (!(*h_list) || !(*h_list)->next)
 		return (-1);
-	sec_el = (*head_list)->next;
+	sec_el = (*h_list)->next;
 	third_el = sec_el->next;
-	(*head_list)->next = third_el;
-	(*head_list)->prev = sec_el;
-	sec_el->next = (*head_list);
-	sec_el->prev = (*head_list)->prev;
+	(*h_list)->next = third_el;
+	(*h_list)->prev = sec_el;
+	sec_el->next = (*h_list);
+	sec_el->prev = (*h_list)->prev;
 	if (third_el)
-		third_el->prev = (*head_list);
-	(*head_list) = sec_el;
-	(*head_list)->prev = NULL;
+		third_el->prev = (*h_list);
+	(*h_list) = sec_el;
+	(*h_list)->prev = NULL;
 	edit_list("s", stack, tmp_list);
 	return (0);
 }
@@ -49,36 +49,36 @@ int	edit_list(char *fct, char *stack, char **tmp_list)
 	return (0);
 }
 
-int	push(t_nb **head_list_a, t_nb **head_list_b, char *stack, char **tmp_list)
+int	push(t_nb **h_list_a, t_nb **h_list_b, char *stack, char **tmp_list)
 {
 	t_nb	*tmp;
 
-	if (!head_list_a || !*head_list_a)
+	if (!h_list_a || !*h_list_a)
 		return (0);
-	tmp = *head_list_a;
-	*head_list_a = (*head_list_a)->next;
-	if (*head_list_a)
-		(*head_list_a)->prev = NULL;
-	tmp->next = *head_list_b;
+	tmp = *h_list_a;
+	*h_list_a = (*h_list_a)->next;
+	if (*h_list_a)
+		(*h_list_a)->prev = NULL;
+	tmp->next = *h_list_b;
 	tmp->prev = NULL;
-	if (*head_list_b)
-		(*head_list_b)->prev = tmp;
-	*head_list_b = tmp;
+	if (*h_list_b)
+		(*h_list_b)->prev = tmp;
+	*h_list_b = tmp;
 	edit_list("p", stack, tmp_list);
 	return (0);
 }
 
-int	rotate(t_nb **head_list, char *stack, char **tmp_list)
+int	rotate(t_nb **h_list, char *stack, char **tmp_list)
 {
 	t_nb	*tmp;
 	t_nb	*last;
 
-	if (!(*head_list) || !(*head_list)->next)
+	if (!(*h_list) || !(*h_list)->next)
 		return (-1);
-	tmp = *head_list;
-	last = ft_lstlast(*head_list);
-	(*head_list) = (tmp)->next;
-	(*head_list)->prev = NULL;
+	tmp = *h_list;
+	last = ft_lstlast(*h_list);
+	(*h_list) = (tmp)->next;
+	(*h_list)->prev = NULL;
 	last->next = tmp;
 	tmp->next = NULL;
 	tmp->prev = last;
@@ -86,27 +86,27 @@ int	rotate(t_nb **head_list, char *stack, char **tmp_list)
 	return (0);
 }
 
-int	reverse_rotate(t_nb **head_list, char *stack, char **tmp_list)
+int	reverse_rotate(t_nb **h_list, char *stack, char **tmp_list)
 {
 	t_nb	*first;
 	t_nb	*last;
 	t_nb	*b_last;
 
-	if (!(*head_list) || !(*head_list)->next)
+	if (!(*h_list) || !(*h_list)->next)
 		return (-1);
-	first = *head_list;
+	first = *h_list;
 	last = ft_lstlast(first);
 	b_last = last->prev;
 	if (last->prev == first)
 	{
-		swap(head_list, stack, tmp_list);
+		swap(h_list, stack, tmp_list);
 		return (0);
 	}
 	b_last->next = NULL;
 	first->prev = last;
 	last->next = first;
 	last->prev = NULL;
-	(*head_list) = last;
+	(*h_list) = last;
 	edit_list("rr", stack, tmp_list);
 	return (0);
 }

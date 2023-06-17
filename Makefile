@@ -14,7 +14,9 @@ OBJ_DIR = ./obj/
 INC_DIR = ./includes/
 
 # Source files and object files
-SRC_FILES = main.c libft_fct.c ft_atoi.c push_swap_reverse.c quicksort.c ft_printf.c ft_print_csdiu.c ft_print_hex.c ft_printptr.c
+SRC_FILES = fct_get_minmax.c fct_handle_list.c fct_libft.c fct_octile.c fct_utils.c \
+ft_atoi.c ft_print_csdiu.c ft_print_hex.c ft_printf.c ft_printptr.c \
+main.c push_swap_reverse.c sort_a_to_b_50.c sort_a_to_b_100.c sort_b_to_a.c sort_list.c
 OBJ_FILES = $(SRC_FILES:.c=.o)
 
 # Paths
