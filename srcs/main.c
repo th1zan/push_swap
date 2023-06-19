@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibault <thibault@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tsanglar <tsanglar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 10:17:28 by thibault          #+#    #+#             */
-/*   Updated: 2023/06/17 12:26:17 by thibault         ###   ########.fr       */
+/*   Updated: 2023/06/19 17:25:29 by tsanglar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,7 @@ int	main(int argc, char **argv)
 		return (0);
 	tmp_list[0] = '\0';
 	if (argc <= 1)
-	{
-		ft_putstr_fd("Nombre d'arguments insuffisant", 1);
-		exit (0);
-	}
+		return (0);
 	else if (argc == 1)
 		return (ft_atoi(argv[1]));
 	else
@@ -48,61 +45,24 @@ int	main(int argc, char **argv)
 	ft_printf("\n nb_op: %d\n", nb_op(tmp_list));
 */
 
-int	check_duplicates(t_nb *list_a)
-{
-	t_nb	*current;
-	t_nb	*temp;
-
-	current = list_a;
-	while (current != NULL)
-	{
-		temp = current->next;
-		while (temp != NULL)
-		{
-			if (current->nb == temp->nb)
-				return (-1);
-			temp = temp->next;
-		}
-		current = current->next;
-	}
-	return (0);
-}
-
 t_nb	*argv_to_list(int argc, char **argv)
 {
 	t_nb	*head_list;
 	int		i;
 
 	i = 1;
-	check_nbr(argv[i]);
+	if (check_nbr(argv[i]) < 0 || check_int(argv[i]) < 0)
+		exit(0);
 	head_list = ft_lstnew(ft_atoi(argv[i]));
 	i++;
 	while (argc - i)
 	{
-		check_nbr(argv[i]);
+		if (check_nbr(argv[i]) < 0 || check_int(argv[i]) < 0)
+			exit(0);
 		ft_lstadd_back(&head_list, ft_lstnew(ft_atoi(argv[i])));
 		i++;
 	}
 	return (head_list);
-}
-
-int	check_nbr(const char *str)
-{
-	int	i;
-
-	i = 0;
-	if (str[i] == '+' || str[i] == '-')
-		i++;
-	while (str[i])
-	{
-		if (!ft_isdigit(str[i]))
-		{
-			ft_putstr_fd("Un élément de la liste n'est pas un nombre", 1);
-			exit (0);
-		}
-		i++;
-	}
-	return (0);
 }
 
 int	free_list(t_nb *head_list)

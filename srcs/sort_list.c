@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sort_list.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibault <thibault@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tsanglar <tsanglar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:22:54 by thibault          #+#    #+#             */
-/*   Updated: 2023/06/17 12:28:07 by thibault         ###   ########.fr       */
+/*   Updated: 2023/06/19 17:17:58 by tsanglar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,7 @@
 int	sort(t_nb **list_a, t_nb **list_b, char **tmp_list)
 {
 	if (check_duplicates(*list_a) < 0)
-	{
-		ft_putstr_fd("Il y a une valeur en double", 1);
 		exit (0);
-	}
 	if (ft_lstsize(*list_a) <= 1)
 		return (0);
 	if (ft_lstsize(*list_a) <= 3)
@@ -28,6 +25,8 @@ int	sort(t_nb **list_a, t_nb **list_b, char **tmp_list)
 		sort_list(list_a, list_b, tmp_list);
 		return (0);
 	}
+	if (check_sorted(*list_a) < 0)
+		return (0);
 	if (ft_lstsize(*list_a) <= 50)
 		a_to_b_50(list_a, list_b, tmp_list);
 	else

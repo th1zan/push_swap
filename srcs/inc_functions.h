@@ -3,15 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   inc_functions.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibault <thibault@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tsanglar <tsanglar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 09:17:41 by thibault          #+#    #+#             */
-/*   Updated: 2023/06/17 12:28:23 by thibault         ###   ########.fr       */
+/*   Updated: 2023/06/19 17:26:08 by tsanglar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef INC_FUNCTIONS_H
 # define INC_FUNCTIONS_H
+
+/*fct_check*/
+int		check_duplicates(t_nb *list_a);
+int		check_nbr(const char *str);
+int		check_int(const char *str);
+int		check_sorted(t_nb *list_a);
 
 /*fct_get_minmax.c*/
 int		get_max(t_nb **head_list);
@@ -56,9 +62,7 @@ int		ft_printf_ptr(unsigned long dec, int *result);
 
 /*main.c*/
 int		main(int argc, char **argv);
-int		check_duplicates(t_nb *list_a);
 t_nb	*argv_to_list(int argc, char **argv);
-int		check_nbr(const char *str);
 int		free_list(t_nb *head_list);
 
 /*push_swap_reverse.c*/
