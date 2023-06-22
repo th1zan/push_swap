@@ -6,7 +6,7 @@
 /*   By: tsanglar <tsanglar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 10:17:28 by thibault          #+#    #+#             */
-/*   Updated: 2023/06/19 17:25:29 by tsanglar         ###   ########.fr       */
+/*   Updated: 2023/06/22 19:43:36 by tsanglar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,81 @@
 #include "inc_struct.h"
 #include "inc_functions.h"
 
+int	free_new_argv(char **new_argv, int new_argc)
+{
+	int	i;
+
+	i = 0;
+	while (i < new_argc)
+		free(new_argv[i++]);
+	free(new_argv);
+	return (0);
+}
+
+char	**analyze_argv(char **argv)
+{
+	char	**tab_str_nb;
+	char	*prog_name;
+
+	prog_name = ft_strjoin("./push_swap ", argv[1]);
+	if (prog_name == NULL)
+		return (NULL);
+	tab_str_nb = ft_split(prog_name, ' ');
+	free(prog_name);
+	if (tab_str_nb == NULL)
+		return (NULL);
+	return (tab_str_nb);
+}
+
+int	count_argc(char **new_argv)
+{
+	int	i;
+	int	j;
+
+	j = 0;
+	while (new_argv[j] != NULL)
+	{
+		i = 0;
+		while (new_argv[i])
+			i++;
+		j++;
+	}
+	return (j);
+}
+
 int	main(int argc, char **argv)
 {
 	t_nb	*list_a;
 	t_nb	*list_b;
 	char	*tmp_list;
+	int		new_argc;
+	char	**new_argv;
 
 	list_a = NULL;
 	list_b = NULL;
+	new_argc = argc;
+	new_argv = argv;
 	tmp_list = malloc(sizeof(char));
 	if (!tmp_list)
 		return (0);
 	tmp_list[0] = '\0';
 	if (argc <= 1)
 		return (0);
-	else if (argc == 1)
-		return (ft_atoi(argv[1]));
-	else
-		list_a = argv_to_list(argc, argv);
+	if (argc == 2)
+	{
+		new_argv = analyze_argv(argv);
+		new_argc = count_argc(new_argv);
+	}
+	list_a = argv_to_list(new_argc, new_argv);
+	
+	if (argc == 2)
+		free_new_argv(new_argv, new_argc);
 	sort(&list_a, &list_b, &tmp_list);
 	ft_printf("%s", tmp_list);
 	free (tmp_list);
 	free_list(list_a);
+
+	
 	return (0);
 }
 

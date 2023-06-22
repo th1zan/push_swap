@@ -6,7 +6,7 @@
 /*   By: tsanglar <tsanglar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 09:17:41 by thibault          #+#    #+#             */
-/*   Updated: 2023/06/19 17:26:08 by tsanglar         ###   ########.fr       */
+/*   Updated: 2023/06/22 19:41:39 by tsanglar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,18 @@ int		ft_printf_u(unsigned int n, int *result);
 int		ft_printf_hex(unsigned long dec, int *result, int cap);
 int		ft_printf_ptr(unsigned long dec, int *result);
 
+/*ft_split.c*/
+void	ft_strcpy(char *dst, char *init, char *fin);
+int		ft_nbline(char *s, char c);
+void	ft_tab(char **tab, char *s, char c);
+char	**ft_split(char const *s, char c);
+
 /*main.c*/
 int		main(int argc, char **argv);
 t_nb	*argv_to_list(int argc, char **argv);
 int		free_list(t_nb *head_list);
+int	free_new_argv(char **new_argv, int new_argc);
+char	**analyze_argv(char **argv);
 
 /*push_swap_reverse.c*/
 int		swap(t_nb **h_list, char *stack, char **tmp_list);
@@ -71,6 +79,7 @@ int		edit_list(char *fct, char *stack, char **tmp_list);
 int		push(t_nb **h_list_a, t_nb **h_list_b, char *stack, char **tmp_list);
 int		rotate(t_nb **h_list, char *stack, char **tmp_list);
 int		reverse_rotate(t_nb **h_list, char *stack, char **tmp_list);
+int		count_argc(char **new_argv);
 
 /*sort_a_to_b_50.c*/
 int		a_to_b_50(t_nb **list_a, t_nb **list_b, char **tmp_list);
