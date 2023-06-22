@@ -3,15 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   inc_functions.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tsanglar <tsanglar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibault <thibault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 09:17:41 by thibault          #+#    #+#             */
-/*   Updated: 2023/06/22 19:41:39 by tsanglar         ###   ########.fr       */
+/*   Updated: 2023/06/22 22:25:26 by thibault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef INC_FUNCTIONS_H
 # define INC_FUNCTIONS_H
+
+/*fct_argv_argc.c*/
+char	**analyze_argv(char **argv);
+int		count_argc(char **new_argv);
+t_nb	*argv_to_list(int argc, char **argv);
 
 /*fct_check*/
 int		check_duplicates(t_nb *list_a);
@@ -68,10 +73,9 @@ char	**ft_split(char const *s, char c);
 
 /*main.c*/
 int		main(int argc, char **argv);
-t_nb	*argv_to_list(int argc, char **argv);
+t_nb	*get_arg(int new_argc, char **new_argv, t_nb *list_a);
 int		free_list(t_nb *head_list);
-int	free_new_argv(char **new_argv, int new_argc);
-char	**analyze_argv(char **argv);
+int		free_new_argv(char **new_argv, int new_argc);
 
 /*push_swap_reverse.c*/
 int		swap(t_nb **h_list, char *stack, char **tmp_list);

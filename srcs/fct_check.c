@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fct_check.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tsanglar <tsanglar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibault <thibault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 16:21:06 by tsanglar          #+#    #+#             */
-/*   Updated: 2023/06/19 17:34:57 by tsanglar         ###   ########.fr       */
+/*   Updated: 2023/06/22 21:39:41 by thibault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ int	check_nbr(const char *str)
 int	check_int(const char *str)
 {
 	double	result;
-	int		i;
 	int		neg;
+	int		i;
 
 	i = 0;
 	neg = 1;
@@ -93,6 +93,7 @@ int	check_int(const char *str)
 		result = 10 * result + (str[i] - 48);
 		i++;
 	}
+	result = result * neg;
 	if (result < -2147483648 || result > 2147483647)
 	{
 		ft_putstr_fd("Error\n", 2);
